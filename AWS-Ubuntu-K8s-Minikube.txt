@@ -1,0 +1,69 @@
+
+
+Source:  https://www.radishlogic.com/kubernetes/running-minikube-in-aws-ec2-ubuntu/
+
+									Installation of Minikube on EC2 Ubuntu
+									======================================
+
+1. Run a public EC2 Server with the following setup
+--------------------------------------------------
+Server = Ubuntu 18.04 
+Instance Type = t2.medium
+Security Group = SSH, 0.0.0.0
+
+
+2. Connect to Server
+   ----------------
+
+3. Install kubectl
+   ----------------
+
+sudo su
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+4. Install Docker
+   ---------------
+
+sudo apt-get update && \
+    sudo apt-get install docker.io -y
+
+5. Install Minikube
+   ----------------
+
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+
+
+6. Check Minikube Version
+   ----------------------
+
+minikube version
+
+7. Start Minikube
+   --------------
+
+minikube start --vm-driver=none
+
+8. Check the status of Minikube
+   ---------------------------
+
+minikube status
+
+
+
+Deploying Nginx container on Kubernetes
+---------------------------------------
+
+
+1. Deploying Nginx Container
+
+  kubectl run sample-nginx --image=nginx --replicas=2 --port=80
+  kubectl get pods
+  kubectl get deployments
+2. Expose the deployment as service. This will create an ELB in front of those 2 containers and allow us to publicly access them:
+
+ kubectl expose deployment sample-nginx --port=80 --type=LoadBalancer
+ kubectl get services -o wide
+
