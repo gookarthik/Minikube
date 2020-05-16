@@ -43,7 +43,7 @@ minikube version
 
 7. Start Minikube
    --------------
-
+sudo apt-get install -y conntrack
 minikube start --vm-driver=none
 
 8. Check the status of Minikube
